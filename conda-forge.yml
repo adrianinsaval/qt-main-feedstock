@@ -7,9 +7,8 @@ bot:
   abi_migration_branches:
   - qt6
 build_platform:
-  linux_aarch64: linux_aarch64
-  linux_ppc64le: linux_ppc64le
-  osx_arm64: osx_64
+  linux_aarch64: linux_64
+  osx_arm64: osx_arm64
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
@@ -19,8 +18,10 @@ github:
 os_version:
   linux_64: cos7
 provider:
-  linux_aarch64: default
-  linux_ppc64le: default
+  linux: github_actions
+  osx: github_actions
+  osx_arm64: github_actions
+  win: github_actions
 remote_ci_setup:
 - liblief=0.11.5
 - conda-forge-ci-setup=3

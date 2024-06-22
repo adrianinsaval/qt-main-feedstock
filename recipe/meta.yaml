@@ -1,4 +1,4 @@
-{% set version = "5.15.13" %}
+{% set version = "5.15.14" %}
 
 package:
   name: qt-main
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/single/qt-everywhere-opensource-src-{{ version }}.tar.xz
-    sha256: 9550ec8fc758d3d8d9090e261329700ddcd712e2dda97e5fcfeabfac22bea2ca
+    sha256: fdd3a4f197d2c800ee0085c721f4bef60951cbda9e9c46e525d1412f74264ed7
     patches:
       # qtbase
       - patches/0001-qtbase-osx-allow-any-xcrun-in-PATH.patch
@@ -63,7 +63,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - sysroot_linux-64 2.17              # [linux]
+    - {{ stdlib("c") }}
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-libegl-devel') }}     # [linux]
     - {{ cdt('mesa-dri-drivers') }}      # [linux]
@@ -96,7 +96,7 @@ requirements:
     # cannot be executed on x86_64 to locate libclang successfully
     - llvmdev                           # [arm64]
     # pin llvm<16 because of: https://bugreports.qt.io/browse/PYSIDE-2288
-    - clangdev >=9, <16                 # [arm64]
+    - clangdev >=9                 # [arm64]
   host:
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]
@@ -127,7 +127,7 @@ requirements:
     # Only libclang is needed, but needs the full package for detection.
     - llvmdev
     # pin llvm<16 because of: https://bugreports.qt.io/browse/PYSIDE-2288
-    - clangdev >=9, <16
+    - clangdev >=9
     # Ensure that build and host have the same clang version on osx
     # otherwise qt6 may be out of sync compared to the pinned compiler
     # version
@@ -178,7 +178,7 @@ requirements:
     - xorg-xf86vidmodeproto              # [linux]
     - {{ pin_compatible("libclang") }}
   run_constrained:
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+    - {{ stdlib("c") }}  # [osx and x86_64]
     - qt {{ version }}
 
 test:

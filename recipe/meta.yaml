@@ -1,4 +1,4 @@
-{% set version = "5.15.8" %}
+{% set version = "5.15.15" %}
 
 package:
   name: qt-main
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/single/qt-everywhere-opensource-src-{{ version }}.tar.xz
-    sha256: 776a9302c336671f9406a53bd30b8e36f825742b2ec44a57c08217bff0fa86b9
+    sha256: b423c30fe3ace7402e5301afbb464febfb3da33d6282a37a665be1e51502335e
     patches:
       # qtbase
       - patches/0001-qtbase-osx-allow-any-xcrun-in-PATH.patch
@@ -64,7 +64,7 @@ source:
     folder: opengl32sw                                                                                            # [win64]
 
 build:
-  number: 26
+  number: 0
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt-main', max_pin='x.x') }}

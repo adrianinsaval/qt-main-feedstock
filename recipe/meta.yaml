@@ -27,8 +27,7 @@ source:
       # Patch for c++11 compatibility
       - patches/0012-include-utility-in-mbgl-util-unique_any.patch
 
-      # Patch for openssl 3 compatibility, picked up from ubuntu, see
-      # https://git.launchpad.net/ubuntu/+source/qtbase-opensource-src/commit/?h=applied/ubuntu/devel&id=6f147c166539b23792515445beadc02fb5565d0c
+      # Patch for openssl 3 compatibility, picked up from kde's patchset
       - patches/0013-upstream-fixes-to-support-OpenSSL-3.0.patch
 
       # This helps compatibility between qt and CXX17

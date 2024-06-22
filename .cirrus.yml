@@ -1,12 +1,13 @@
 linux_arm64_task:
     # Basic metadata:
     name: build_linux_aarch64_
-    timeout_in: 360m
+    timeout_in: 120m
 
     # The build machine:
     compute_engine_instance:
       image_project: cirrus-images
-      image: family/docker-builder
+      image: family/docker-builder-arm64
+      architecture: arm64
       platform: linux
       cpu: 8
       memory: 32G
@@ -17,15 +18,14 @@ linux_arm64_task:
     env:
       CONFIG: linux_aarch64_
       UPLOAD_PACKAGES: True
-      DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+      DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
 
     # Instructions:
     docker_build_script: |
-      echo "::group::Configure binfmt_misc"
-      docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
       export CI=cirrus
       export flow_run_id="cirrus_${CIRRUS_TASK_ID}"
       export remote_url=${CIRRUS_REPO_CLONE_URL}
+      export sha=${CIRRUS_CHANGE_IN_REPO}
       export GIT_BRANCH=${CIRRUS_BASE_BRANCH}
       export FEEDSTOCK_NAME=$(basename ${CIRRUS_REPO_NAME})
       if [ -z "$CIRRUS_PR" ]; then
@@ -33,6 +33,92 @@ linux_arm64_task:
       else
         export IS_PR_BUILD="True"
       fi
-      echo "::endgroup::"
       ./.scripts/run_docker_build.sh
 
+win_64_task:
+    # Basic metadata:
+    name: build_win_64_
+    timeout_in: 120m
+
+    # The build machine:
+    windows_container:
+      image: cirrusci/windowsservercore:2019
+      cpu: 8
+      memory: 32G
+
+    # Environment variables:
+    env:
+      CONFIG: win_64_
+      UPLOAD_PACKAGES: True
+
+    # Instructions:
+    build_script: |
+      start /wait "" Miniforge3-Windows-x86_64.exe /InstallationType=JustMe /RegisterPython=0 /S /D=%UserProfile%\Miniforge3
+      set "PATH=%PATH%;%UserProfile%\Miniforge3\Scripts\"
+      set "CI=cirrus"
+      set "flow_run_id=github_%CIRRUS_TASK_ID%"
+      set "remote_url=%CIRRUS_REPO_CLONE_URL%"
+      set "sha=%CIRRUS_CHANGE_IN_REPO%"
+      set "GIT_BRANCH=%CIRRUS_BASE_BRANCH%"
+      call ".scripts\run_win_build.bat"
+
+osx_arm64_task:
+    # Basic metadata:
+    name: build_osx_arm64_
+    timeout_in: 120m
+
+    # The build machine:
+    macos_instance:
+      image: ghcr.io/cirruslabs/macos-monterey-xcode:13
+
+    # Environment variables:
+    env:
+      CONFIG: osx_arm64_
+      UPLOAD_PACKAGES: True
+
+    # Instructions:
+    osx_build_script: |
+      export CI=cirrus
+      export flow_run_id="cirrus_${CIRRUS_TASK_ID}"
+      export remote_url=${CIRRUS_REPO_CLONE_URL}
+      export sha=${CIRRUS_CHANGE_IN_REPO}
+      export OSX_FORCE_SDK_DOWNLOAD="1"
+      export GIT_BRANCH=${CIRRUS_BASE_BRANCH}
+      export FEEDSTOCK_NAME=$(basename ${CIRRUS_REPO_NAME})
+      export OSX_SDK_DIR=${HOME}/SDKs
+      if [ -z "$CIRRUS_PR" ]; then
+        export IS_PR_BUILD="False"
+      else
+        export IS_PR_BUILD="True"
+      fi
+      ./.scripts/run_osx_build.sh
+
+osx_64_task:
+    # Basic metadata:
+    name: build_osx_64_
+    timeout_in: 120m
+
+    # The build machine:
+    macos_instance:
+      image: ghcr.io/cirruslabs/macos-monterey-xcode:13
+
+    # Environment variables:
+    env:
+      CONFIG: osx_64_
+      UPLOAD_PACKAGES: True
+
+    # Instructions:
+    osx_build_script: |
+      export CI=cirrus
+      export flow_run_id="cirrus_${CIRRUS_TASK_ID}"
+      export remote_url=${CIRRUS_REPO_CLONE_URL}
+      export sha=${CIRRUS_CHANGE_IN_REPO}
+      export OSX_FORCE_SDK_DOWNLOAD="1"
+      export GIT_BRANCH=${CIRRUS_BASE_BRANCH}
+      export FEEDSTOCK_NAME=$(basename ${CIRRUS_REPO_NAME})
+      if [ -z "$CIRRUS_PR" ]; then
+        export IS_PR_BUILD="False"
+      else
+        export IS_PR_BUILD="True"
+      fi
+      ./.scripts/run_osx_build.sh

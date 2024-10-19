@@ -57,6 +57,8 @@ source:
       # Taken from debian for gcc 13 compatibility
       # https://github.com/conda-forge/qt-main-feedstock/pull/289#issuecomment-2354739087
       - patches/0022-gcc_13.patch
+      # Patch from OpenMandriva also used by archlinux
+      - patches/0023-work-around-pyside2-llvm16.patch
 
   - url: https://download.qt.io/development_releases/prebuilt/llvmpipe/windows/opengl32sw-64-mesa_12_0_rc2.7z     # [win64]
     sha256: 2a0d2f92c60e0962ef5f6039d3793424c6f39e49ba27ac04a5b21ca4ae012e15                                      # [win64]
@@ -104,11 +106,7 @@ requirements:
     # cross-compiling arm64 binaries on x86_64 since llvm-config (host/arm64)
     # cannot be executed on x86_64 to locate libclang successfully
     - llvmdev                           # [arm64]
-    # pin llvm<16 because of: https://bugreports.qt.io/browse/PYSIDE-2288
-    - clangdev >=9, <16                 # [arm64]
-    # llvm<16 require we manually add libcxx-devel on osx,
-    # see https://github.com/conda-forge/qt-main-feedstock/pull/288#issuecomment-2351649435
-    - libcxx-devel                       # [osx]
+    - clangdev >=9                 # [arm64]
   host:
     - libgl-devel                        # [linux]
     - libegl-devel                       # [linux]
@@ -141,11 +139,7 @@ requirements:
     # http://doc.qt.io/Qt-5/qdoc-guide-clang.html
     # Only libclang is needed, but needs the full package for detection.
     - llvm
-    # pin llvm<16 because of: https://bugreports.qt.io/browse/PYSIDE-2288
-    - clangdev >=9, <16
-    # llvm<16 require we manually add libcxx-devel on osx,
-    # see https://github.com/conda-forge/qt-main-feedstock/pull/288#issuecomment-2351649435
-    - libcxx-devel                       # [osx]
+    - clangdev >=9
     # Ensure that build and host have the same clang version on osx
     # otherwise qt6 may be out of sync compared to the pinned compiler
     # version

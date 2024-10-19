@@ -10,7 +10,7 @@ linux_aarch64_task:
       platform: linux
       architecture: arm64
       cpu: 8
-      memory: 16G
+      memory: 32G
       #disk: 100 # optional. By default, uses the smallest disk size required by the image.
       nested_virtualization: true
 
@@ -45,7 +45,7 @@ linux_64_task:
       image: family/docker-builder
       platform: linux
       cpu: 8
-      memory: 16G
+      memory: 32G
       #disk: 100 # optional. By default, uses the smallest disk size required by the image.
       nested_virtualization: true
 
@@ -69,3 +69,28 @@ linux_64_task:
         export IS_PR_BUILD="True"
       fi
       ./.scripts/run_docker_build.sh
+
+win_64_task:
+    # Basic metadata:
+    name: build_win_64_
+    timeout_in: 120m
+
+    # The build machine:
+    windows_container:
+      image: cirrusci/windowsservercore:2019
+      cpu: 8
+      memory: 32G
+
+    # Environment variables:
+    env:
+      CONFIG: win_64_
+      UPLOAD_PACKAGES: True
+
+    # Instructions:
+    build_script: |
+      set "CI=cirrus"
+      set "flow_run_id=github_%CIRRUS_TASK_ID%"
+      set "remote_url=%CIRRUS_REPO_CLONE_URL%"
+      set "sha=%CIRRUS_CHANGE_IN_REPO%"
+      set "GIT_BRANCH=%CIRRUS_BASE_BRANCH%"
+      call ".scripts\run_win_build.bat"

@@ -67,7 +67,7 @@ source:
     folder: opengl32sw                                                                                            # [win64]
 
 build:
-  number: 0
+  number: 1
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt-main', max_pin='x.x') }}
@@ -83,13 +83,6 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-libegl-devel') }}     # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxcomposite-devel') }}   # [linux]
-    - {{ cdt('libdrm-devel') }}          # [linux]
-    - {{ cdt('libglvnd-glx') }}          # [linux]
-    - {{ cdt('libglvnd-egl') }}          # [linux]
     # For fontconfig + freetype
     - pkg-config                         # [unix]
     - make                               # [unix]
@@ -117,6 +110,13 @@ requirements:
     - llvmdev                           # [arm64]
     - clangdev >=9                      # [arm64]
   host:
+    - libglvnd-devel                     # [linux]
+    - libglx-devel                       # [linux]
+    - libgl-devel                        # [linux]
+    - libegl-devel                       # [linux]
+    - libdrm                             # [linux]
+    - vulkan-headers
+    - libvulkan-headers
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]
     - dbus                               # [linux]
@@ -174,8 +174,10 @@ requirements:
     - xorg-libsm                         # [linux]
     - xorg-libice                        # [linux]
     # https://github.com/conda-forge/staged-recipes/pull/22084
+    - xorg-libxcomposite                 # [linux]
     - xorg-libxxf86vm                    # [linux]
     - xorg-xf86vidmodeproto              # [linux]
+    - xorg-xorgproto                     # [linux]
     # qtlocation requires mapbox-gl-native that uses libbost-headers
     - libboost-headers
   run:
@@ -204,13 +206,13 @@ requirements:
 test:
   requires:
     - {{ compiler('cxx') }}
-    - {{ cdt('mesa-libgl-devel') }} # [linux]
-    - {{ cdt('mesa-libegl-devel') }} # [linux]
-    - {{ cdt('mesa-dri-drivers') }} # [linux]
-    - {{ cdt('libdrm-devel') }} # [linux]
-    - {{ cdt('libxcomposite-devel') }} # [linux]
-    - {{ cdt('libglvnd-glx') }} # [linux]
-    - {{ cdt('libglvnd-egl') }} # [linux]
+    - libglvnd-devel                     # [linux]
+    - libglx-devel                       # [linux]
+    - libgl-devel                        # [linux]
+    - libegl-devel                       # [linux]
+    - libdrm                             # [linux]
+    - vulkan-headers
+    - libvulkan-headers
     - make                               # [unix]
     - xcb-util                           # [linux]
     - xorg-libxdamage                    # [linux]

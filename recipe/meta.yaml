@@ -83,6 +83,13 @@ requirements:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
+    - {{ cdt('mesa-libgl-devel') }}      # [linux]
+    - {{ cdt('mesa-libegl-devel') }}     # [linux]
+    - {{ cdt('mesa-dri-drivers') }}      # [linux]
+    - {{ cdt('libxcomposite-devel') }}   # [linux]
+    - {{ cdt('libdrm-devel') }}          # [linux]
+    - {{ cdt('libglvnd-glx') }}          # [linux]
+    - {{ cdt('libglvnd-egl') }}          # [linux]
     # For fontconfig + freetype
     - pkg-config                         # [unix]
     - make                               # [unix]
@@ -108,11 +115,8 @@ requirements:
     # cross-compiling arm64 binaries on x86_64 since llvm-config (host/arm64)
     # cannot be executed on x86_64 to locate libclang successfully
     - llvmdev                           # [arm64]
-    - clangdev >=9                 # [arm64]
+    - clangdev >=9                      # [arm64]
   host:
-    - libgl-devel                        # [linux]
-    - libegl-devel                       # [linux]
-    - libdrm                             # [linux]
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]
     - dbus                               # [linux]
@@ -200,8 +204,13 @@ requirements:
 test:
   requires:
     - {{ compiler('cxx') }}
-    - libgl-devel                        # [linux]
-    - libegl-devel                       # [linux]
+    - {{ cdt('mesa-libgl-devel') }} # [linux]
+    - {{ cdt('mesa-libegl-devel') }} # [linux]
+    - {{ cdt('mesa-dri-drivers') }} # [linux]
+    - {{ cdt('libdrm-devel') }} # [linux]
+    - {{ cdt('libxcomposite-devel') }} # [linux]
+    - {{ cdt('libglvnd-glx') }} # [linux]
+    - {{ cdt('libglvnd-egl') }} # [linux]
     - make                               # [unix]
     - xcb-util                           # [linux]
     - xorg-libxdamage                    # [linux]

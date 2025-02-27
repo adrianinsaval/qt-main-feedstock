@@ -110,8 +110,8 @@ requirements:
     - libgl-devel                        # [linux]
     - libegl-devel                       # [linux]
     - libdrm                             # [linux]
-    - vulkan-headers
-    - libvulkan-headers
+    - vulkan-headers                     # [not aarch64]
+    - libvulkan-headers                  # [not aarch64]
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]
     - dbus                               # [linux]
@@ -206,8 +206,8 @@ test:
     - libgl-devel                        # [linux]
     - libegl-devel                       # [linux]
     - libdrm                             # [linux]
-    - vulkan-headers
-    - libvulkan-headers
+    - vulkan-headers                     # [not aarch64]
+    - libvulkan-headers                  # [not aarch64]
     - make                               # [unix]
     - xcb-util                           # [linux]
     - xorg-libxdamage                    # [linux]

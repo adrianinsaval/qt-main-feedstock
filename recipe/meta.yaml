@@ -30,11 +30,6 @@ source:
       # Patch for openssl 3 compatibility, picked up from kde's patchset
       - patches/0013-upstream-fixes-to-support-OpenSSL-3.0.patch
 
-      # This helps compatibility between qt and CXX17
-      # https://github.com/conda-forge/qt-main-feedstock/pull/136
-      # https://github.com/conda-forge/libcxx-feedstock/issues/114#issuecomment-1490672500
-      - patches/0014-remove-usage-of-unary-operator.patch
-
       # https://github.com/xkbcommon/libxkbcommon/blob/6073565903488cb5b9a8d37fdc4a7c2f9d7ad04d/NEWS#L11
       # https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/merge_requests/70
       - patches/0015-remove-deleted-xkb-keys.patch

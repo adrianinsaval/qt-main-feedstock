@@ -34,9 +34,6 @@ source:
       # https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/merge_requests/70
       - patches/0015-remove-deleted-xkb-keys.patch
 
-      # https://github.com/Homebrew/homebrew-core/pull/145729
-      - patches/0016-qmake-xcode15.patch
-
       # https://bugreports.qt.io/browse/QTBUG-121183
       # https://codereview.qt-project.org/c/qt/qtbase/+/532555
       - patches/0017-Backport-fixes-for-compatibility-with-mysql-8.3.patch

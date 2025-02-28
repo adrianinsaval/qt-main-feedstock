@@ -30,10 +30,6 @@ source:
       # Patch for openssl 3 compatibility, picked up from kde's patchset
       - patches/0013-upstream-fixes-to-support-OpenSSL-3.0.patch
 
-      # https://github.com/xkbcommon/libxkbcommon/blob/6073565903488cb5b9a8d37fdc4a7c2f9d7ad04d/NEWS#L11
-      # https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/merge_requests/70
-      - patches/0015-remove-deleted-xkb-keys.patch
-
       # https://bugreports.qt.io/browse/QTBUG-121183
       # https://codereview.qt-project.org/c/qt/qtbase/+/532555
       - patches/0017-Backport-fixes-for-compatibility-with-mysql-8.3.patch
